@@ -26,10 +26,7 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   });
   const { errors } = formState;
 
-  // Invoked in ALL validation passes. Here we get access to the form data
   const onSubmit = function (data) {
-    // No need to validate here, because it's already been done. This is REALLY nice!
-
     const options = {
       onSuccess: (data) => {
         // If this component is used OUTSIDE the Modal Context, this will return undefined, so we need to test for this
@@ -65,10 +62,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
       <FormRow label="Cabin name" error={errors?.name?.message}>
-        {/* register your input into the hook by invoking the "register" function */}
-        {/* why the ...? Because this will return an object { onChange, onBlur, customer, ref }, and by spreading we then add all these to the element [show dev tools] */}
-        {/* include validation with required or other standard HTML validation rules: required, min, max, minLength, maxLength, pattern, validate */}
-        {/* errors will return when field validation fails  */}
         <Input
           type="text"
           id="name"
