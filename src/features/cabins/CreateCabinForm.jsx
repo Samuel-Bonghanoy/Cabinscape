@@ -8,16 +8,23 @@ import Button from "ui/Button";
 import FileInput from "ui/FileInput";
 import { useEditCabin } from "./useEditCabin";
 import { Textarea } from "ui/Textarea";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 // Receives closeModal directly from Modal
 function CreateCabinForm({ cabinToEdit, closeModal }) {
+  const queryClient = useQueryClient();
+
   const { mutate, isLoading } = useMutation({
     mutationFn: createCabin,
     onSuccess: () => {
       toast.success("New Cabin has been created");
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+      reset();
     },
+    onError: (err) => toast.error(err.message),
   });
 
   const { mutate: createCabin, isLoading: isCreating } = useCreateCabin();
