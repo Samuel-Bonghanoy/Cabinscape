@@ -35,7 +35,7 @@ function CabinTable() {
     data: cabins,
     error,
   } = useQuery({
-    queryKey: ["cabin"],
+    queryKey: ["cabins"],
     queryFn: getCabins,
   });
   // We enabled Suspense on this query with React Query. This will make it so that this component is SUSPENDED while the data is still loading. We then have to add a <Suspense> boundary somewhere OUTSIDE this component to instruct React to SUSPEND, so to PAUSE, the rendering of this component until the data has been loaded.
@@ -51,6 +51,7 @@ function CabinTable() {
 
   if (isLoading) return <Spinner />;
   if (!cabins) return <Empty resource={"cabins"} />;
+  if (error) console.log("yes");
 
   // 1) Filter
   const filterValue = searchParams.get("discount") || "all";
