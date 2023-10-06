@@ -11,7 +11,6 @@ import { Textarea } from "ui/Textarea";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-// Receives closeModal directly from Modal
 function CreateCabinForm({ cabinToEdit, closeModal }) {
   const queryClient = useQueryClient();
 
@@ -31,12 +30,10 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   const { mutate: editCabin, isLoading: isEditing } = useEditCabin();
   const isWorking = isCreating || isEditing;
 
-  // For an editing session
   const { id: editId, ...editValues } = cabinToEdit || {};
   delete editValues.created_at;
   const isEditSession = Boolean(editId);
 
-  // One of the key concepts in React Hook Form is to register your component into the hook. This will make its value available for both the form validation and submission.
   const { register, handleSubmit, formState, reset, getValues } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
@@ -45,7 +42,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   const onSubmit = function (data) {
     const options = {
       onSuccess: (data) => {
-        // If this component is used OUTSIDE the Modal Context, this will return undefined, so we need to test for this
         closeModal?.();
         reset();
       },
@@ -64,7 +60,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
     else createCabin({ ...data, image }, options);
   };
 
-  // Invoked when validation fails
   const onError = function (errors) {
     console.log("Failed validation!", errors);
   };
@@ -144,10 +139,8 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
           accept="image/*"
           disabled={isWorking}
           {...register("image", {
-            // required: 'This field is required',
             required: isEditSession ? false : "This field is required",
 
-            // VIDEO this doesn't work, so never mind about this, it's too much
             // validate: (value) =>
             //   value[0]?.type.startsWith('image/') || 'Needs to be an image',
           })}
@@ -155,7 +148,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button
           variation="secondary"
           type="reset"
