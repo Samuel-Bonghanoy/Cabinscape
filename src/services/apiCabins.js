@@ -28,14 +28,13 @@ export async function createCabin(newCabin) {
     throw new Error("Cabin could not be created");
   }
 
-  const avatarFile = event.target.files[0];
-  const { data, error } = await supabase.storage
-    .from("avatars")
-    .update("public/avatar1.png", avatarFile, {
-      cacheControl: "3600",
-      upsert: true,
-    });
+  const { error: storageError } = await supabase.storage
+    .from("cabin-images")
+    .update(imageName, newCabin.image);
 
+  if (storageError) {
+    await supabase.from("cabins").delete().eq("id", data.id);
+  }
   return data;
 }
 
