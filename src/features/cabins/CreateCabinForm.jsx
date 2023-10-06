@@ -53,12 +53,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
     console.log("Failed validation!", errors);
   };
 
-  // By default, validation happens the moment we submit the form, so when we call handleSubmit. From them on, validation happens on the onChange event [demonstrate]. We cah change that by passing options into useForm ('mode' and 'reValidateMode')
-  // https://react-hook-form.com/api/useform
-
-  // The registered names need to be the same as in the Supabase table. This makes it easier to send the request
-  // "handleSubmit" will validate your inputs before invoking "onSubmit"
-
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
       <FormRow label="Cabin name" error={errors?.name?.message}>
