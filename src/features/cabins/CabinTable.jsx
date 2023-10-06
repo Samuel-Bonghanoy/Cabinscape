@@ -1,17 +1,15 @@
 // import styled from 'styled-components';
-import CabinRow from 'features/cabins/CabinRow';
-import Spinner from 'ui/Spinner';
-import Table from 'ui/Table';
-import Menus from 'ui/Menus';
-import Empty from 'ui/Empty';
-import { useCabins } from 'features/cabins/useCabins';
-import { useSearchParams } from 'react-router-dom';
-import { Suspense } from 'react';
+import CabinRow from "features/cabins/CabinRow";
+import Spinner from "ui/Spinner";
+import Table from "ui/Table";
+import Menus from "ui/Menus";
+import Empty from "ui/Empty";
+// import { useCabins } from "features/cabins/useCabins";
+import { getCabins } from "../services/apiCabins";
+import { useSearchParams } from "react-router-dom";
+// import { Suspense } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-// v2
-// Right now this is not really reusable... But we will want to use a similar table for guests as well, but with different columns. ALSO, right now we are defining these columns in BOTH the TableHeader and the CabinRow, which is not good at all. Instead, it would be much better to simply pass the columns into the Table, and the table would give access to the columns to both the header and row. So how can we do that? Well we can again use a compound component! We don't HAVE to do it like this, there's a million ways to implement a table, also without CSS Grid, but this is what I chose
-
-// v1
 // const TableHeader = styled.header`
 //   display: grid;
 //   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -32,6 +30,14 @@ import { Suspense } from 'react';
 // The hotel won't ever have a lot of cabins, so there is no need to paginate. So we will do no pagination, AND we will do filtering and sorting. So here we learn how to do it on the FRONT-END (later in the booking we will do the BACK-END version, which is more real world)
 
 function CabinTable() {
+  const {
+    isLoading,
+    data: cabins,
+    error,
+  } = useQuery({
+    queryKey: ["cabin"],
+    queryFn: getCabins,
+  });
   // We enabled Suspense on this query with React Query. This will make it so that this component is SUSPENDED while the data is still loading. We then have to add a <Suspense> boundary somewhere OUTSIDE this component to instruct React to SUSPEND, so to PAUSE, the rendering of this component until the data has been loaded.
   // So basically, we are delegating the loading (and also error handling) to the nearest Suspense up in the tree. That Suspense boundary keeps WAITING until the component is no longer suspending, and then renders it.
   // So, React Query made loading data SO MUCH EASIER, as it creates the loading states for us. BUT, we still have to manage displaying loading spinners in the UI manually. With suspense, that's all gone! It can basically "decide" not to render this component until the data has arrived. This is completely different... Before Suspense, components ALWAYS rendered, but we could choose to then render a spinner while the data has not arrived yet. With Suspense it's different. The component will not even be rendered in the first place. This is what React's modern "concurrent features" are all about, where things can be deferred into the FUTURE (such as rendering components, in this case)
@@ -40,27 +46,27 @@ function CabinTable() {
 
   // Now, everything that's inside a Suspense will be treated as just one unit, so when just one component of the child components is currently suspended, all of them will be replaced with the fallback. We can nest multiple Suspense boundaries, and the closest one will be shown. This way, when we have a big Suspense on the top on the tree, it won't have to WAIT
 
-  const { cabins } = useCabins();
+  // const { cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
-  // if (isLoading) return <Spinner />;
-  // if (!cabins) return <Empty resource={'cabins'} />;
+  if (isLoading) return <Spinner />;
+  if (!cabins) return <Empty resource={"cabins"} />;
 
   // 1) Filter
-  const filterValue = searchParams.get('discount') || 'all';
+  const filterValue = searchParams.get("discount") || "all";
 
   // This is probably not the most efficient way, but that doesn't matter
   let filteredCabins;
-  if (filterValue === 'all') filteredCabins = cabins;
-  if (filterValue === 'no-discount')
+  if (filterValue === "all") filteredCabins = cabins;
+  if (filterValue === "no-discount")
     filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
-  if (filterValue === 'with-discount')
+  if (filterValue === "with-discount")
     filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
   // 2) SortBy
-  const sortBy = searchParams.get('sortBy') || 'startDate-asc';
-  const [field, direction] = sortBy.split('-');
-  const modifier = direction === 'asc' ? 1 : -1;
+  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  const [field, direction] = sortBy.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
 
   // This one is better!
   // .sort((a, b) => a[field].localeCompare(b[field]) * modifier);
@@ -72,7 +78,7 @@ function CabinTable() {
   return (
     <Menus>
       {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
-      <Table columns='9.6rem 0.8fr 2fr 1fr 1fr 3.2rem'>
+      <Table columns="9.6rem 0.8fr 2fr 1fr 1fr 3.2rem">
         <Table.Header>
           <div></div>
           <div>Cabin</div>
