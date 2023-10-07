@@ -4,11 +4,9 @@ import Spinner from "ui/Spinner";
 import Table from "ui/Table";
 import Menus from "ui/Menus";
 import Empty from "ui/Empty";
-// import { useCabins } from "features/cabins/useCabins";
-import { getCabins } from "../services/apiCabins";
 import { useSearchParams } from "react-router-dom";
 // import { Suspense } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCabins } from "./useCabins";
 
 // const TableHeader = styled.header`
 //   display: grid;
@@ -26,26 +24,16 @@ import { useQuery } from "@tanstack/react-query";
 // `;
 
 function CabinTable() {
-  const {
-    isLoading,
-    data: cabins,
-    error,
-  } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: getCabins,
-  });
-
-  // const { cabins } = useCabins();
+  const { isLoading, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
   if (!cabins) return <Empty resource={"cabins"} />;
-  if (error) console.log("yes");
+  // if (error) console.log("yes");
 
   // 1) Filter
   const filterValue = searchParams.get("discount") || "all";
 
-  // This is probably not the most efficient way, but that doesn't matter
   let filteredCabins;
   if (filterValue === "all") filteredCabins = cabins;
   if (filterValue === "no-discount")
