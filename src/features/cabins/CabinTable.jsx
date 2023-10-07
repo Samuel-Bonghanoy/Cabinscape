@@ -1,9 +1,9 @@
 // import styled from 'styled-components';
-import CabinRow from "features/cabins/CabinRow";
-import Spinner from "ui/Spinner";
-import Table from "ui/Table";
-import Menus from "ui/Menus";
-import Empty from "ui/Empty";
+import CabinRow from "./CabinRow";
+import Spinner from "../../ui/Spinner";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
 // import { Suspense } from "react";
 import { useCabins } from "./useCabins";

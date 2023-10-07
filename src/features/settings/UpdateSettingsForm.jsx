@@ -1,4 +1,4 @@
-import Form from ", ../.. /ui/Form";
+import Form from "../../ui/Form";
 // import { updateSetting } from "../../services/apiSettings";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";

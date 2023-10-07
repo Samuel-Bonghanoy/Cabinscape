@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { HiPencil, HiTrash, HiSquare2Stack } from "react-icons/hi2";
 
-import Menus from "ui/Menus";
-import Modal from "ui/Modal";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
 import ConfirmDelete from "ui/ConfirmDelete";
-import Table from "ui/Table";
+import Table from "../../ui/Table";
 
 import { formatCurrency } from "utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
