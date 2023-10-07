@@ -62,8 +62,8 @@ function CabinRow({ cabin }) {
     description,
   } = cabin;
 
-  const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
-  const { mutate: createCabin } = useCreateCabin();
+  const { isDeleting, deleteCabin } = useDeleteCabin();
+  // const { mutate: createCabin } = useCreateCabin();
 
   // function handleDuplicate() {
   //   createCabin({

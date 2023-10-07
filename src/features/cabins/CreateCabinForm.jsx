@@ -1,20 +1,20 @@
 import { useForm } from "react-hook-form";
 
 import { useCreateCabin } from "features/cabins/useCreateCabin";
+import { useEditCabin } from "./useEditCabin";
 import FormRow from "ui/FormRow";
 import Input from "ui/Input";
 import Form from "ui/Form";
 import Button from "ui/Button";
 import FileInput from "ui/FileInput";
-import { useEditCabin } from "./useEditCabin";
 import { Textarea } from "ui/Textarea";
 
-function CreateCabinForm({ cabinToEdit, closeModal }) {
+function CreateCabinForm({ cabinToEdit = {}, closeModal }) {
   const { id: editId, ...editValues } = cabinToEdit || {};
   delete editValues.created_at;
   const isEditSession = Boolean(editId);
 
-  const { mutate: createCabin, isLoading: isCreating } = useCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
   const { mutate: editCabin, isLoading: isEditing } = useEditCabin();
   const isWorking = isCreating || isEditing;
 
@@ -26,6 +26,7 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   const onSubmit = function (data) {
     const options = {
       onSuccess: (data) => {
+        console.log(data);
         closeModal?.();
         reset();
       },
