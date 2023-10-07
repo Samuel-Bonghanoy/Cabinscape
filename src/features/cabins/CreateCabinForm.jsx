@@ -40,7 +40,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }) {
   const { errors } = formState;
 
   const onSubmit = function (data) {
-  const onSubmit = function (data) {
     const options = {
       onSuccess: (data) => {
         closeModal?.();
