@@ -123,14 +123,12 @@ function CabinRow({ cabin }) {
               <Menus.Button icon={<HiPencil />}>Edit cabin</Menus.Button>
             </Modal.Toggle>
 
-            {/* Now it gets a bit confusing... */}
             <Modal.Toggle opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete cabin</Menus.Button>
             </Modal.Toggle>
           </Menus.List>
         </Menus.Menu>
 
-        {/* This needs to be OUTSIDE of the menu, which in no problem. The compound component gives us this flexibility */}
         <Modal.Window name="edit">
           <CreateCabinForm cabinToEdit={cabin} />
         </Modal.Window>
