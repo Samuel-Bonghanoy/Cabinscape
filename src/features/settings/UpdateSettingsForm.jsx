@@ -1,4 +1,5 @@
 import Form from ", ../.. /ui/Form";
+// import { updateSetting } from "../../services/apiSettings";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
@@ -16,13 +17,16 @@ function UpdateSettingsForm() {
     } = {},
   } = useSettings();
 
-  const { isUpdating, UpdateSettings } = useUpdateSetting();
+  const { isUpdating, updateSetting } = useUpdateSetting();
 
   if (isLoading) return <Spinner />;
 
-  function handleUpdate(e) {
+  function handleUpdate(e, field) {
     const { value } = e.target;
-    console.log(value);
+
+    if (!value) return;
+
+    updateSetting({ [field]: value });
   }
 
   return (
@@ -31,6 +35,7 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           id="min-nights"
+          disabled={isUpdating}
           defaultValue={minBookingLength}
           onBlur={(e) => handleUpdate(e, "minBookingLength")}
         />
