@@ -7,14 +7,10 @@ import ConfirmDelete from "ui/ConfirmDelete";
 import Table from "ui/Table";
 
 import { formatCurrency } from "utils/helpers";
-// import { useDeleteCabin } from './useDeleteCabin';
+import { useDeleteCabin } from "./useDeleteCabin";
 // import { useCreateCabin } from './useCreateCabin';
 import CreateCabinForm from "./CreateCabinForm";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 
-// v1
 // const TableRow = styled.div`
 //   display: grid;
 //   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -66,7 +62,7 @@ function CabinRow({ cabin }) {
     description,
   } = cabin;
 
-  // const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
+  const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
   // const { mutate: createCabin } = useCreateCabin();
 
   // function handleDuplicate() {
