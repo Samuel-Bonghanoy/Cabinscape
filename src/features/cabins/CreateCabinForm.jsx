@@ -8,31 +8,15 @@ import Button from "ui/Button";
 import FileInput from "ui/FileInput";
 import { useEditCabin } from "./useEditCabin";
 import { Textarea } from "ui/Textarea";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 
 function CreateCabinForm({ cabinToEdit, closeModal }) {
-  const queryClient = useQueryClient();
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      toast.success("New Cabin has been created");
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      reset();
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { id: editId, ...editValues } = cabinToEdit || {};
+  delete editValues.created_at;
+  const isEditSession = Boolean(editId);
 
   const { mutate: createCabin, isLoading: isCreating } = useCreateCabin();
   const { mutate: editCabin, isLoading: isEditing } = useEditCabin();
   const isWorking = isCreating || isEditing;
-
-  const { id: editId, ...editValues } = cabinToEdit || {};
-  delete editValues.created_at;
-  const isEditSession = Boolean(editId);
 
   const { register, handleSubmit, formState, reset, getValues } = useForm({
     defaultValues: isEditSession ? editValues : {},
