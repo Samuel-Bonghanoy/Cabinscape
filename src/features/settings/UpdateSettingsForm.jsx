@@ -1,5 +1,4 @@
 import Form from "../../ui/Form";
-// import { updateSetting } from "../../services/apiSettings";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
@@ -16,7 +15,6 @@ function UpdateSettingsForm() {
       breakfastPrice,
     } = {},
   } = useSettings();
-
   const { isUpdating, updateSetting } = useUpdateSetting();
 
   if (isLoading) return <Spinner />;
@@ -25,7 +23,6 @@ function UpdateSettingsForm() {
     const { value } = e.target;
 
     if (!value) return;
-
     updateSetting({ [field]: value });
   }
 
@@ -35,8 +32,8 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           id="min-nights"
-          disabled={isUpdating}
           defaultValue={minBookingLength}
+          disabled={isUpdating}
           onBlur={(e) => handleUpdate(e, "minBookingLength")}
         />
       </FormRow>
@@ -45,9 +42,9 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           id="max-nights"
-          disabled={isUpdating}
           defaultValue={maxBookingLength}
-          onBlur={(e) => handleUpdate(e, "minBookingLength")}
+          disabled={isUpdating}
+          onBlur={(e) => handleUpdate(e, "maxBookingLength")}
         />
       </FormRow>
 
@@ -55,9 +52,9 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           id="max-guests"
-          disabled={isUpdating}
-          onBlur={(e) => handleUpdate(e, "minBookingLength")}
           defaultValue={maxGuestsPerBooking}
+          disabled={isUpdating}
+          onBlur={(e) => handleUpdate(e, "maxGuestsPerBooking")}
         />
       </FormRow>
 
@@ -65,9 +62,9 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           id="breakfast-price"
-          disabled={isUpdating}
-          onBlur={(e) => handleUpdate(e, "minBookingLength")}
           defaultValue={breakfastPrice}
+          disabled={isUpdating}
+          onBlur={(e) => handleUpdate(e, "breakfastPrice")}
         />
       </FormRow>
     </Form>
