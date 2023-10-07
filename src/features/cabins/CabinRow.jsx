@@ -10,6 +10,7 @@ import { formatCurrency } from "utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
 // import { useCreateCabin } from './useCreateCabin';
 import CreateCabinForm from "./CreateCabinForm";
+import { useCreateCabin } from "./useCreateCabin";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -63,18 +64,18 @@ function CabinRow({ cabin }) {
   } = cabin;
 
   const { isDeleting, deleteCabin } = useDeleteCabin();
-  // const { mutate: createCabin } = useCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
 
-  // function handleDuplicate() {
-  //   createCabin({
-  //     name: `${name} duplicate`,
-  //     maxCapacity,
-  //     regularPrice,
-  //     discount,
-  //     image,
-  //     description,
-  //   });
-  // }
+  function handleDuplicate() {
+    createCabin({
+      name: `${name} duplicate`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    });
+  }
 
   return (
     <Table.Row role="row">
