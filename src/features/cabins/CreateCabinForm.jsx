@@ -10,12 +10,12 @@ import FileInput from "ui/FileInput";
 import { Textarea } from "ui/Textarea";
 
 function CreateCabinForm({ cabinToEdit = {}, closeModal }) {
+  const { isCreating, createCabin } = useCreateCabin();
+  const { isEditing, editCabin } = useEditCabin();
+
   const { id: editId, ...editValues } = cabinToEdit || {};
   delete editValues.created_at;
   const isEditSession = Boolean(editId);
-
-  const { isCreating, createCabin } = useCreateCabin();
-  const { isEditing, editCabin } = useEditCabin();
 
   const isWorking = isCreating || isEditing;
 
