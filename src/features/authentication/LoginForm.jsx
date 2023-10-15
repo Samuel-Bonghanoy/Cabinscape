@@ -7,7 +7,7 @@ import Input from "../../ui/Input";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  console.log(password);
   function handleSubmit() {}
 
   return (
